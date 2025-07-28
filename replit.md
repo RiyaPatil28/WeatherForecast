@@ -2,85 +2,85 @@
 
 ## Overview
 
-This is a Flask-based weather application that provides real-time weather information for cities worldwide. The app integrates with the Open-Meteo API (completely free, no API key required) to fetch current weather data and presents it through a stunning 3D glassmorphism interface with modern gradients and smooth animations.
+This is a Flask-based weather application that provides real-time weather information for cities worldwide. The app integrates with the Open-Meteo API (completely free, no API key required) to fetch current weather data and forecasts. The application features a modern glassmorphism UI design with smooth animations and a premium aesthetic.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
-UI Style: Modern 3D aesthetic with glassmorphism effects, gradients, and smooth animations.
 
 ## System Architecture
 
-The application follows a simple three-tier architecture:
+The application follows a clean three-tier architecture optimized for simplicity and maintainability:
 
-1. **Presentation Layer**: HTML templates with Bootstrap CSS framework
-2. **Application Layer**: Flask web framework handling HTTP requests and business logic
-3. **Data Layer**: External API integration with OpenWeatherMap
+1. **Presentation Layer**: HTML templates with Bootstrap CSS framework and custom glassmorphism styling
+2. **Application Layer**: Flask web framework handling HTTP requests, routing, and business logic
+3. **Data Layer**: External API integration with Open-Meteo geocoding and weather APIs
 
-The architecture prioritizes simplicity and maintainability, making it easy to understand and extend. The separation of concerns is maintained through distinct modules for web handling (`app.py`) and weather service logic (`weather_service.py`).
+The architecture prioritizes ease of understanding and extension while maintaining clear separation of concerns through distinct modules for web handling and weather data processing.
 
 ## Key Components
 
-### Web Application (`app.py`)
-- **Purpose**: Main Flask application handling HTTP requests and responses
-- **Key Features**: Route handling, error management, flash messaging system
-- **Design Decision**: Uses Flask's built-in session management for flash messages, providing user feedback for API failures or validation errors
+### Flask Application (`app.py`)
+- **Purpose**: Main web application entry point handling HTTP requests and responses
+- **Key Features**: Route handling, form processing, error management, flash messaging system
+- **Design Decision**: Uses Flask's built-in session management for user feedback and comprehensive error handling for API failures
 
 ### Weather Service (`weather_service.py`)
-- **Purpose**: Abstraction layer for OpenWeatherMap API integration
-- **Key Features**: API request handling, data formatting, error handling with specific exception types
-- **Design Decision**: Separates API logic from web logic for better testability and maintainability
+- **Purpose**: Abstraction layer for Open-Meteo API integration and data processing
+- **Key Features**: Geocoding for city coordinates, weather data fetching, response formatting, structured error handling
+- **Design Decision**: Separates API logic from web logic for better testability, maintainability, and single responsibility principle
 
 ### Frontend Templates
-- **Base Template (`base.html`)**: Provides consistent layout with Bootstrap dark theme
-- **Index Template (`index.html`)**: Main interface for city search and weather display
-- **Design Decision**: Uses Bootstrap CDN with custom CSS for weather-specific styling
+- **Base Template (`base.html`)**: Consistent layout foundation with Bootstrap dark theme, navigation, and flash message handling
+- **Index Template (`index.html`)**: Main user interface for city search and weather data display
+- **Design Decision**: Uses Bootstrap CDN with extensive custom CSS for weather-specific glassmorphism styling
 
 ### Static Assets (`style.css`)
-- **Purpose**: Custom styling for weather-specific components
-- **Key Features**: Weather card styling, hover effects, responsive design enhancements
+- **Purpose**: Premium glassmorphism design system with 3D effects and smooth animations
+- **Key Features**: Multi-layered gradients, backdrop filters, hover effects, responsive design
+- **Design Decision**: Modern aesthetic prioritizing visual appeal and user experience
 
 ## Data Flow
 
-1. **User Input**: User enters city name through web form
-2. **Request Processing**: Flask route validates input and calls WeatherService
-3. **API Integration**: WeatherService makes HTTP request to OpenWeatherMap API
-4. **Data Transformation**: Raw API response is formatted into display-friendly structure
-5. **Response Rendering**: Processed data is passed to template for HTML generation
-6. **Error Handling**: API failures or invalid cities trigger flash messages
+1. **User Input**: User enters city name through glassmorphism search form
+2. **Request Processing**: Flask route validates input and delegates to WeatherService
+3. **Geocoding**: WeatherService queries Open-Meteo geocoding API to get city coordinates
+4. **Weather Fetching**: Service uses coordinates to fetch current weather from Open-Meteo weather API
+5. **Data Transformation**: Raw API response is processed and formatted for template consumption
+6. **Response Rendering**: Weather data is rendered through Jinja2 templates with error handling
+7. **Error Management**: API failures, invalid cities, or network issues trigger user-friendly flash messages
 
 ## External Dependencies
 
-### Core Dependencies
-- **Flask**: Web framework for handling HTTP requests and templating
-- **Requests**: HTTP library for API communication with OpenWeatherMap
+### APIs
+- **Open-Meteo Geocoding API**: Free geocoding service for converting city names to coordinates
+- **Open-Meteo Weather API**: Free weather data service providing current conditions and forecasts
+- **Design Decision**: Chosen for being completely free with no API key requirements, reliable, and well-documented
 
-### Frontend Dependencies (CDN)
-- **Bootstrap**: CSS framework for responsive design and component styling
-- **Font Awesome**: Icon library for weather and UI icons
+### Frontend Libraries
+- **Bootstrap 5.3**: CSS framework for responsive layout and dark theme
+- **Font Awesome 6.4**: Icon library for weather symbols and UI elements
+- **Google Fonts**: Poppins and JetBrains Mono for modern typography
 
-### API Integration
-- **OpenWeatherMap API**: External service providing weather data
-- **Authentication**: Requires API key stored in environment variable `OPENWEATHER_API_KEY`
-- **Rate Limits**: Subject to OpenWeatherMap's usage limitations
+### Python Libraries
+- **Flask**: Lightweight web framework for HTTP handling
+- **requests**: HTTP client library for API communications
+- **logging**: Built-in Python logging for debugging and monitoring
 
 ## Deployment Strategy
 
-### Environment Configuration
-- **Development**: Uses Flask's built-in development server with debug mode
-- **Environment Variables**: 
-  - `OPENWEATHER_API_KEY`: Required for API access
-  - `SESSION_SECRET`: Optional, falls back to development key
+### Development Setup
+- **Entry Point**: `main.py` runs the Flask development server
+- **Configuration**: Environment-based secret key with fallback for development
+- **Debug Mode**: Enabled for development with comprehensive logging
 
-### Hosting Requirements
-- **Python Environment**: Requires Python with Flask and requests packages
-- **Network Access**: Needs outbound HTTPS access to api.openweathermap.org
-- **Port Configuration**: Configured to run on port 5000 with host binding to 0.0.0.0
+### Production Considerations
+- **WSGI Compatibility**: Flask app can be deployed with any WSGI server (Gunicorn, uWSGI)
+- **Environment Variables**: Secret key should be set via `SESSION_SECRET` environment variable
+- **Static Assets**: CSS and potential future assets served through Flask's static file handling
+- **Error Handling**: Comprehensive error pages and logging for production monitoring
 
-### Error Handling Strategy
-- **API Failures**: Graceful degradation with user-friendly error messages
-- **Network Issues**: Timeout and connection error handling with retry suggestions
-- **Invalid Input**: Client-side and server-side validation with flash messaging
-- **HTTP Errors**: Custom 404 and 500 error handlers
-
-The deployment strategy prioritizes simplicity and reliability, with comprehensive error handling to ensure good user experience even when external services fail.
+### Scalability Design
+- **Stateless Architecture**: No database dependencies, allowing horizontal scaling
+- **API Rate Limiting**: Open-Meteo has generous limits, but caching could be added if needed
+- **Session Management**: Minimal session usage only for flash messages, reducing memory footprint
