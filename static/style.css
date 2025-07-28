@@ -600,6 +600,33 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(70, 70, 80, 0.3);
+    border-top: 2px solid rgba(70, 70, 80, 0.9);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loading state for search button */
+.search-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
 
 
 .form-control {
