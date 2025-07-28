@@ -641,6 +641,29 @@ body {
     opacity: 0.8;
 }
 
+/* Smooth transitions for form elements */
+.search-btn, .search-input {
+    transition: opacity 0.3s ease;
+}
+
+/* Loading message styling */
+#loadingMessage {
+    font-size: 1rem;
+    font-weight: 500;
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 
 .form-control {
