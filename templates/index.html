@@ -147,20 +147,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const cityInput = document.getElementById('cityInput');
     
     if (form) {
-        form.addEventListener('submit', function() {
-            // Show full screen loading overlay immediately
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'block';
-                loadingOverlay.style.animation = 'fadeIn 0.3s ease';
+        form.addEventListener('submit', function(e) {
+            // Only validate, don't prevent submission
+            const cityValue = cityInput.value.trim();
+            console.log('Form submitting with city:', cityValue);
+            
+            if (!cityValue) {
+                e.preventDefault();
+                alert('Please enter a city name');
+                return false;
             }
             
-            // Also show button loading state
-            searchIcon.style.display = 'none';
-            loadingIcon.style.display = 'inline-block';
-            loadingMessage.style.display = 'block';
-            searchBtn.disabled = true;
-            cityInput.disabled = true;
+            // Show loading states but don't prevent form submission
+            try {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'block';
+                }
+                
+                if (searchIcon) searchIcon.style.display = 'none';
+                if (loadingIcon) loadingIcon.style.display = 'inline-block';
+                if (loadingMessage) loadingMessage.style.display = 'block';
+                if (searchBtn) searchBtn.disabled = true;
+            } catch (error) {
+                console.log('Error with loading states:', error);
+            }
+            
+            // Allow form to submit normally
         });
     }
 });
