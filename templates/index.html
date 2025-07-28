@@ -32,21 +32,7 @@
                             <span id="loadingIcon" style="display: none;"><i class="fas fa-circle-notch fa-spin"></i></span>
                         </button>
                     </div>
-                    <div id="loadingMessage" style="display: none; text-align: center; margin-top: 1rem; color: rgba(248, 250, 255, 0.8);">
-                        <i class="fas fa-cloud-sun fa-pulse"></i> Getting weather data...
-                    </div>
                 </form>
-                
-                <!-- Full screen loading overlay -->
-                <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 9999; backdrop-filter: blur(5px);">
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">
-                            <i class="fas fa-cloud-sun fa-pulse"></i>
-                        </div>
-                        <div style="font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem;">Getting weather data...</div>
-                        <div style="font-size: 1rem; opacity: 0.7;">Please wait a moment</div>
-                    </div>
-                </div>
             </div>
 
             <!-- Weather Data Display -->
@@ -134,48 +120,4 @@
         {% endif %}
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('searchForm');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchIcon = document.getElementById('searchIcon');
-    const loadingIcon = document.getElementById('loadingIcon');
-    const loadingMessage = document.getElementById('loadingMessage');
-    const cityInput = document.getElementById('cityInput');
-    
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            // Only validate, don't prevent submission
-            const cityValue = cityInput.value.trim();
-            console.log('Form submitting with city:', cityValue);
-            
-            if (!cityValue) {
-                e.preventDefault();
-                alert('Please enter a city name');
-                return false;
-            }
-            
-            // Show loading states but don't prevent form submission
-            try {
-                const loadingOverlay = document.getElementById('loadingOverlay');
-                if (loadingOverlay) {
-                    loadingOverlay.style.display = 'block';
-                }
-                
-                if (searchIcon) searchIcon.style.display = 'none';
-                if (loadingIcon) loadingIcon.style.display = 'inline-block';
-                if (loadingMessage) loadingMessage.style.display = 'block';
-                if (searchBtn) searchBtn.disabled = true;
-            } catch (error) {
-                console.log('Error with loading states:', error);
-            }
-            
-            // Allow form to submit normally
-        });
-    }
-});
-</script>
 {% endblock %}
