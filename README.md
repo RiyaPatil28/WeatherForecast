@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a Flask-based weather application that provides real-time weather information for cities worldwide. The app integrates with the Open-Meteo API (completely free, no API key required) to fetch current weather data and presents it through a stunning 3D glassmorphism interface with modern gradients and smooth animations.
+This is a Flask-based weather application that provides real-time weather information for cities worldwide. The app integrates with the Open-Meteo API to fetch current weather data and presents it through a stunning 3D glassmorphism interface with modern gradients and smooth animations.
 
 ## User Preferences
 
@@ -65,12 +65,6 @@ The architecture prioritizes simplicity and maintainability, making it easy to u
 - **Rate Limits**: Subject to OpenWeatherMap's usage limitations
 
 ## Deployment Strategy
-
-### Environment Configuration
-- **Development**: Uses Flask's built-in development server with debug mode
-- **Environment Variables**: 
-  - `OPENWEATHER_API_KEY`: Required for API access
-  - `SESSION_SECRET`: Optional, falls back to development key
 
 ### Hosting Requirements
 - **Python Environment**: Requires Python with Flask and requests packages
