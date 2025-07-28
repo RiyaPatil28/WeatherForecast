@@ -19,53 +19,7 @@ body {
     overflow-x: hidden;
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    animation: drift 30s linear infinite;
-    pointer-events: none;
-    z-index: -1;
-}
 
-body::after {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: 
-        conic-gradient(from 0deg at 50% 50%, 
-            transparent 0deg, 
-            rgba(255, 0, 150, 0.03) 60deg, 
-            transparent 120deg, 
-            rgba(0, 200, 255, 0.03) 180deg, 
-            transparent 240deg, 
-            rgba(255, 200, 0, 0.03) 300deg, 
-            transparent 360deg);
-    animation: rotate-slow 60s linear infinite;
-    pointer-events: none;
-    z-index: -1;
-}
-
-@keyframes drift {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-20px, -20px); }
-    50% { transform: translate(0, -40px); }
-    75% { transform: translate(20px, -20px); }
-    100% { transform: translate(0, 0); }
-}
-
-@keyframes rotate-slow {
-    100% { transform: rotate(360deg); }
-}
 
 .weather-card {
     background: 
@@ -87,58 +41,17 @@ body::after {
         inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.weather-card::before {
-    content: '';
-    position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    height: 300%;
-    background: 
-        conic-gradient(from 0deg at 50% 50%, 
-            transparent 0deg,
-            rgba(255, 0, 150, 0.15) 60deg,
-            transparent 120deg,
-            rgba(0, 200, 255, 0.15) 180deg,
-            transparent 240deg,
-            rgba(255, 200, 0, 0.15) 300deg,
-            transparent 360deg);
-    animation: rotate-bg 15s linear infinite;
-    z-index: -2;
-}
 
-.weather-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 20%, rgba(255, 0, 150, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
-    border-radius: 40px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
+
+
 
 .weather-card:hover {
     transform: translateY(-20px) scale(1.03);
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 
         0 60px 150px rgba(0, 0, 0, 0.3),
-        0 30px 80px rgba(255, 0, 150, 0.1),
-        0 15px 40px rgba(0, 200, 255, 0.1),
+        0 30px 80px rgba(0, 0, 0, 0.15),
         inset 0 3px 0 rgba(255, 255, 255, 0.5);
-}
-
-.weather-card:hover::after {
-    opacity: 1;
-}
-
-@keyframes rotate-bg {
-    100% { transform: rotate(360deg); }
 }
 
 /* Premium Weather Card Components */
@@ -580,26 +493,10 @@ body::after {
     text-align: center;
     position: relative;
     margin-bottom: 1rem;
-    animation: glow-pulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
 }
 
-.app-title::before {
-    content: 'Weather';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(45deg, 
-        rgba(255, 0, 150, 0.3), 
-        rgba(0, 200, 255, 0.3), 
-        rgba(255, 200, 0, 0.3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: blur(3px);
-    z-index: -1;
-    animation: color-shift 8s ease-in-out infinite;
-}
+
 
 .app-subtitle {
     font-size: 1.2rem;
@@ -611,31 +508,7 @@ body::after {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes glow-pulse {
-    0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
-    50% { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.5)); }
-}
 
-@keyframes color-shift {
-    0%, 100% { 
-        background: linear-gradient(45deg, 
-            rgba(255, 0, 150, 0.3), 
-            rgba(0, 200, 255, 0.3), 
-            rgba(255, 200, 0, 0.3));
-    }
-    33% { 
-        background: linear-gradient(45deg, 
-            rgba(0, 200, 255, 0.3), 
-            rgba(255, 200, 0, 0.3), 
-            rgba(255, 0, 150, 0.3));
-    }
-    66% { 
-        background: linear-gradient(45deg, 
-            rgba(255, 200, 0, 0.3), 
-            rgba(255, 0, 150, 0.3), 
-            rgba(0, 200, 255, 0.3));
-    }
-}
 
 /* Premium Search Input */
 .search-input-container {
@@ -643,29 +516,7 @@ body::after {
     margin-bottom: 3rem;
 }
 
-.search-input-container::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, 
-        rgba(255, 0, 150, 0.5), 
-        rgba(0, 200, 255, 0.5), 
-        rgba(255, 200, 0, 0.5), 
-        rgba(150, 0, 255, 0.5));
-    border-radius: 35px;
-    filter: blur(8px);
-    animation: border-flow 6s linear infinite;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
 
-.search-input-container:focus-within::before {
-    opacity: 1;
-}
 
 .search-input {
     width: 100%;
@@ -751,36 +602,7 @@ body::after {
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-@keyframes border-flow {
-    0%, 100% { 
-        background: linear-gradient(45deg, 
-            rgba(255, 0, 150, 0.5), 
-            rgba(0, 200, 255, 0.5), 
-            rgba(255, 200, 0, 0.5), 
-            rgba(150, 0, 255, 0.5));
-    }
-    25% { 
-        background: linear-gradient(45deg, 
-            rgba(0, 200, 255, 0.5), 
-            rgba(255, 200, 0, 0.5), 
-            rgba(150, 0, 255, 0.5), 
-            rgba(255, 0, 150, 0.5));
-    }
-    50% { 
-        background: linear-gradient(45deg, 
-            rgba(255, 200, 0, 0.5), 
-            rgba(150, 0, 255, 0.5), 
-            rgba(255, 0, 150, 0.5), 
-            rgba(0, 200, 255, 0.5));
-    }
-    75% { 
-        background: linear-gradient(45deg, 
-            rgba(150, 0, 255, 0.5), 
-            rgba(255, 0, 150, 0.5), 
-            rgba(0, 200, 255, 0.5), 
-            rgba(255, 200, 0, 0.5));
-    }
-}
+
 
 .form-control {
     background: rgba(255, 255, 255, 0.1);
