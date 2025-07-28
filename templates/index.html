@@ -52,28 +52,31 @@
                 </div>
 
                 <!-- Main Weather Info -->
-                <div class="row align-items-center mb-4">
+                <div class="row align-items-center mb-5">
                     <div class="col-md-6 text-center">
-                        <div class="weather-icon-container mb-3">
+                        <div class="weather-icon-container mb-4 position-relative">
+                            <div class="weather-glow"></div>
                             <img 
                                 src="https://openweathermap.org/img/wn/{{ weather_data.icon }}@4x.png" 
                                 alt="{{ weather_data.description }}"
                                 class="weather-icon"
                             >
                         </div>
-                        <h2 class="display-1 mb-0 text-primary font-weight-bold">
-                            {{ weather_data.temperature }}°C
-                        </h2>
-                        <p class="lead text-muted mb-2">
-                            Feels like {{ weather_data.feels_like }}°C
-                        </p>
+                        <div class="temperature-display">
+                            <h2 class="display-1 mb-0 temperature-text">
+                                {{ weather_data.temperature }}°C
+                            </h2>
+                            <p class="feels-like-text">
+                                Feels like {{ weather_data.feels_like }}°C
+                            </p>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="weather-description text-center text-md-start">
-                            <h3 class="h2 mb-3 text-capitalize">
+                            <h3 class="weather-main-desc mb-3">
                                 {{ weather_data.description }}
                             </h3>
-                            <p class="lead text-muted mb-0">
+                            <p class="weather-sub-desc">
                                 {{ weather_data.main }}
                             </p>
                         </div>
