@@ -3,148 +3,113 @@
 {% block title %}Weather App - Real-time Weather Information{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <!-- Search Form -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="card-title text-center mb-4">
-                    <i class="fas fa-search me-2 text-primary"></i>
-                    Get Weather Information
-                </h2>
+<div class="container-fluid px-4">
+    <div class="row justify-content-center min-vh-100 align-items-center">
+        <div class="col-xl-5 col-lg-6 col-md-8">
+            <!-- Search Form -->
+            <div class="search-container mb-5">
+                <div class="text-center mb-4">
+                    <h1 class="app-title mb-2">Weather</h1>
+                    <p class="app-subtitle">Beautiful weather, anywhere</p>
+                </div>
                 
-                <form method="POST" class="needs-validation" novalidate>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </span>
+                <form method="POST" class="search-form">
+                    <div class="search-input-container">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
                         <input 
                             type="text" 
-                            class="form-control form-control-lg" 
+                            class="search-input" 
                             name="city" 
-                            placeholder="Enter city name (e.g., London, New York)" 
+                            placeholder="Search for a city..." 
                             value="{{ city or '' }}"
                             required
                             autocomplete="off"
                         >
-                        <button class="btn btn-primary btn-lg" type="submit">
-                            <i class="fas fa-search me-1"></i>
-                            Search
+                        <button class="search-btn" type="submit">
+                            <i class="fas fa-arrow-right"></i>
                         </button>
-                    </div>
-                    <div class="invalid-feedback">
-                        Please enter a city name.
                     </div>
                 </form>
             </div>
-        </div>
 
-        <!-- Weather Data Display -->
-        {% if weather_data %}
-        <div class="card weather-card">
-            <div class="card-body">
+            <!-- Weather Data Display -->
+            {% if weather_data %}
+            <div class="weather-card">
                 <!-- Location Header -->
-                <div class="text-center mb-4">
-                    <h1 class="display-4 mb-2">
-                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                        {{ weather_data.city }}{% if weather_data.country %}, {{ weather_data.country }}{% endif %}
-                    </h1>
+                <div class="weather-location">
+                    <h2 class="location-name">{{ weather_data.city }}</h2>
+                    <p class="location-country">{{ weather_data.country }}</p>
                 </div>
 
-                <!-- Main Weather Info -->
-                <div class="row align-items-center mb-5">
-                    <div class="col-md-6 text-center">
-                        <div class="weather-icon-container mb-4 position-relative">
-                            <div class="weather-glow"></div>
+                <!-- Main Weather Display -->
+                <div class="weather-main">
+                    <div class="weather-visual">
+                        <div class="weather-icon-wrapper">
                             <img 
                                 src="https://openweathermap.org/img/wn/{{ weather_data.icon }}@4x.png" 
                                 alt="{{ weather_data.description }}"
-                                class="weather-icon"
+                                class="weather-icon-modern"
                             >
                         </div>
-                        <div class="temperature-display">
-                            <h2 class="display-1 mb-0 temperature-text">
-                                {{ weather_data.temperature }}°C
-                            </h2>
-                            <p class="feels-like-text">
-                                Feels like {{ weather_data.feels_like }}°C
-                            </p>
+                        <div class="temperature-wrapper">
+                            <span class="temperature-large">{{ weather_data.temperature }}</span>
+                            <span class="temperature-unit">°C</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="weather-description text-center text-md-start">
-                            <h3 class="weather-main-desc mb-3">
-                                {{ weather_data.description }}
-                            </h3>
-                            <p class="weather-sub-desc">
-                                {{ weather_data.main }}
-                            </p>
+                    
+                    <div class="weather-info">
+                        <h3 class="weather-desc">{{ weather_data.description }}</h3>
+                        <p class="feels-like">Feels like {{ weather_data.feels_like }}°C</p>
+                    </div>
+                </div>
+
+                <!-- Weather Stats -->
+                <div class="weather-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">💧</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Humidity</span>
+                            <span class="stat-value">{{ weather_data.humidity }}%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">💨</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Wind</span>
+                            <span class="stat-value">{{ weather_data.wind_speed }} m/s</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Pressure</span>
+                            <span class="stat-value">{{ weather_data.pressure }} hPa</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">👁️</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Visibility</span>
+                            <span class="stat-value">{{ weather_data.visibility }} km</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Weather Details Grid -->
-                <div class="row g-3">
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="weather-detail-card h-100">
-                            <div class="weather-detail-icon">
-                                <i class="fas fa-tint text-primary"></i>
-                            </div>
-                            <div class="weather-detail-content">
-                                <h6 class="weather-detail-label">Humidity</h6>
-                                <div class="weather-detail-value">{{ weather_data.humidity }}%</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="weather-detail-card h-100">
-                            <div class="weather-detail-icon">
-                                <i class="fas fa-wind text-primary"></i>
-                            </div>
-                            <div class="weather-detail-content">
-                                <h6 class="weather-detail-label">Wind Speed</h6>
-                                <div class="weather-detail-value">{{ weather_data.wind_speed }} m/s</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="weather-detail-card h-100">
-                            <div class="weather-detail-icon">
-                                <i class="fas fa-thermometer-half text-primary"></i>
-                            </div>
-                            <div class="weather-detail-content">
-                                <h6 class="weather-detail-label">Pressure</h6>
-                                <div class="weather-detail-value">{{ weather_data.pressure }} hPa</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="weather-detail-card h-100">
-                            <div class="weather-detail-icon">
-                                <i class="fas fa-eye text-primary"></i>
-                            </div>
-                            <div class="weather-detail-content">
-                                <h6 class="weather-detail-label">Visibility</h6>
-                                <div class="weather-detail-value">{{ weather_data.visibility }} km</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Search Again Button -->
-                <div class="text-center mt-4">
+                <!-- Search Again -->
+                <div class="search-again">
                     <form method="GET">
-                        <button type="submit" class="btn btn-outline-primary">
-                            <i class="fas fa-search me-1"></i>
+                        <button type="submit" class="search-again-btn">
+                            <i class="fas fa-search"></i>
                             Search Another City
                         </button>
                     </form>
                 </div>
             </div>
-        </div>
         {% else %}
         <!-- Welcome Message -->
         <div class="card text-center">

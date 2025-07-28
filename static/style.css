@@ -1,28 +1,291 @@
-/* Custom weather app styles with 3D effects */
+/* Modern Glassmorphism Weather App */
 
 body {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.03"><circle cx="30" cy="30" r="2"/></g></svg>') repeat;
+    animation: shimmer 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100px) translateY(-100px); }
+    100% { transform: translateX(100px) translateY(100px); }
 }
 
 .weather-card {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 32px;
+    padding: 3rem;
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 8px 32px rgba(59, 130, 246, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transform: perspective(1000px) rotateX(2deg);
-    transition: all 0.3s ease;
+        0 30px 80px rgba(0, 0, 0, 0.12),
+        0 15px 35px rgba(0, 0, 0, 0.08),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        conic-gradient(from 0deg, 
+            transparent, 
+            rgba(120, 119, 198, 0.1), 
+            transparent, 
+            rgba(255, 119, 198, 0.1), 
+            transparent);
+    animation: rotate 10s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
 }
 
 .weather-card:hover {
-    transform: perspective(1000px) rotateX(0deg) translateY(-5px);
+    transform: translateY(-12px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.4),
-        0 12px 40px rgba(59, 130, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 40px 100px rgba(0, 0, 0, 0.15),
+        0 20px 50px rgba(120, 119, 198, 0.1),
+        0 10px 25px rgba(255, 119, 198, 0.1),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Weather Card Components */
+.weather-location {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.location-name {
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.location-country {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    gap: 2rem;
+}
+
+.weather-visual {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weather-icon-wrapper {
+    position: relative;
+}
+
+.weather-icon-modern {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+    animation: float 4s ease-in-out infinite;
+}
+
+.temperature-wrapper {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1;
+}
+
+.temperature-large {
+    font-size: 4.5rem;
+    font-weight: 200;
+    color: white;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.temperature-unit {
+    font-size: 2rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.weather-info {
+    text-align: right;
+    flex: 1;
+}
+
+.weather-desc {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.feels-like {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.weather-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    width: 32px;
+    text-align: center;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 600;
+}
+
+.search-again {
+    text-align: center;
+}
+
+.search-again-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-again-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Floating animation for weather icon */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-title {
+        font-size: 3rem;
+    }
+    
+    .weather-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .weather-info {
+        text-align: center;
+    }
+    
+    .weather-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .temperature-large {
+        font-size: 3.5rem;
+    }
+    
+    .weather-desc {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .app-title {
+        font-size: 2.5rem;
+    }
 }
 
 .weather-icon {
@@ -110,23 +373,99 @@ body {
     color: var(--bs-body-color);
 }
 
+/* Hide navbar for cleaner full-screen design */
 .navbar {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(147, 51, 234, 0.8) 100%) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: none;
 }
 
-.navbar-brand {
-    font-weight: 600;
-    font-size: 1.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+/* Modern App Title */
+.app-title {
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.app-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Modern Search Input */
+.search-input-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    width: 100%;
+    height: 60px;
+    padding: 0 60px 0 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 400;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 0 0 4px rgba(255, 255, 255, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    z-index: 10;
+}
+
+.search-btn {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
 }
 
-.navbar-brand:hover {
+.search-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
     transform: scale(1.05);
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-control {
@@ -197,23 +536,42 @@ body {
 }
 
 .card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(30px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
     box-shadow: 
-        0 16px 40px rgba(0, 0, 0, 0.2),
-        0 8px 32px rgba(59, 130, 246, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+        0 25px 45px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.25),
-        0 12px 40px rgba(59, 130, 246, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 35px 60px rgba(0, 0, 0, 0.15),
+        0 20px 40px rgba(120, 119, 198, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .display-1 {
