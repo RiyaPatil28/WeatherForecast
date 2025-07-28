@@ -26,7 +26,7 @@ class WeatherService:
             logger.debug(f"Fetching coordinates for city: {city}")
             geocoding_params = {
                 'name': city,
-                'count': 1,
+                'count': 5,  # Get multiple results to find the best match
                 'language': 'en',
                 'format': 'json'
             }
@@ -43,7 +43,14 @@ class WeatherService:
                 logger.warning(f"City not found: {city}")
                 return None
             
-            location = geocoding_data['results'][0]
+            # Select the best location match
+            # Prioritize locations with higher population or admin level
+            results = geocoding_data['results']
+            location = self._select_best_location(results, city)
+            if not location:
+                logger.warning(f"No suitable location found for: {city}")
+                return None
+                
             latitude = location['latitude']
             longitude = location['longitude']
             
@@ -111,6 +118,7 @@ class WeatherService:
             return {
                 'city': location.get('name', 'Unknown'),
                 'country': location.get('country_code', ''),
+                'region': location.get('admin1', ''),  # State/Province
                 'temperature': round(current.get('temperature', 0)),
                 'feels_like': round(current.get('temperature', 0)),  # Open-Meteo doesn't provide feels_like in basic plan
                 'description': description,
@@ -168,6 +176,40 @@ class WeatherService:
         }
         
         return weather_map.get(weather_code, ("Unknown", "Unknown", "01d"))
+    
+    def _select_best_location(self, results: list, search_city: str) -> Optional[Dict]:
+        """
+        Select the best location from geocoding results
+        Prioritize by population and admin level
+        """
+        if not results:
+            return None
+            
+        # Sort by admin level and population (prefer cities over villages)
+        def location_score(location):
+            # Prefer locations with higher population
+            population = location.get('population', 0)
+            
+            # Prefer cities over rural areas
+            admin_level = location.get('admin1', '') # State/Province level
+            feature_class = location.get('feature_class', '')
+            
+            score = population
+            
+            # Boost score for populated places
+            if feature_class == 'P':  # Populated place
+                score += 10000
+                
+            # Boost score if it has admin divisions (cities vs villages)
+            if admin_level:
+                score += 5000
+                
+            return score
+        
+        # Sort results by score and return the best match
+        sorted_results = sorted(results, key=location_score, reverse=True)
+        logger.debug(f"Selected location: {sorted_results[0].get('name')} in {sorted_results[0].get('admin1', '')}, {sorted_results[0].get('country_code', '')}")
+        return sorted_results[0]
     
     def get_weather_icon_url(self, icon_code: str) -> str:
         """

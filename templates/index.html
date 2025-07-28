@@ -44,7 +44,13 @@
                 <!-- Location Header -->
                 <div class="weather-location">
                     <h2 class="location-name">{{ weather_data.city }}</h2>
-                    <p class="location-country">{{ weather_data.country }}</p>
+                    <p class="location-country">
+                        {% if weather_data.region %}
+                            {{ weather_data.region }}, {{ weather_data.country }}
+                        {% else %}
+                            {{ weather_data.country }}
+                        {% endif %}
+                    </p>
                 </div>
 
                 <!-- Main Weather Display -->
