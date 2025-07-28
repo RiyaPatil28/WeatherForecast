@@ -24,7 +24,6 @@
                             name="city" 
                             placeholder="Search for a city..." 
                             value="{{ city or '' }}"
-                            required
                             autocomplete="off"
                             id="cityInput"
                         >
@@ -127,48 +126,22 @@
 
 {% block scripts %}
 <script>
-// Loading state handler
+// Simple form submission with loading state
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('weatherForm');
     const searchBtn = document.getElementById('searchBtn');
     const searchIcon = document.getElementById('searchIcon');
     const loadingSpinner = document.getElementById('loadingSpinner');
-    const cityInput = document.getElementById('cityInput');
     
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            // Only show loading state for form submissions
-            // Let HTML5 validation handle empty inputs
-            const cityValue = cityInput.value.trim();
-            
-            if (cityValue) {
-                // Show loading state for valid submissions
-                searchBtn.classList.add('loading');
-                searchIcon.style.display = 'none';
-                loadingSpinner.style.display = 'flex';
-                searchBtn.disabled = true;
-                cityInput.disabled = true;
-            }
+    if (form && searchBtn) {
+        form.addEventListener('submit', function() {
+            // Show loading state when form is submitted
+            searchBtn.classList.add('loading');
+            if (searchIcon) searchIcon.style.display = 'none';
+            if (loadingSpinner) loadingSpinner.style.display = 'flex';
+            searchBtn.disabled = true;
         });
     }
-});
-
-// Auto-dismiss flash messages
-document.addEventListener('DOMContentLoaded', function() {
-    const alerts = document.querySelectorAll('.alert');
-    alerts.forEach(function(alert) {
-        setTimeout(function() {
-            if (alert && alert.parentNode) {
-                alert.style.opacity = '0';
-                alert.style.transform = 'translateY(-100%)';
-                setTimeout(function() {
-                    if (alert.parentNode) {
-                        alert.parentNode.removeChild(alert);
-                    }
-                }, 300);
-            }
-        }, 5000);
-    });
 });
 </script>
 {% endblock %}
