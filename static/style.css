@@ -548,6 +548,20 @@ body {
     transform: translateY(-4px) scale(1.02);
 }
 
+.search-input.is-invalid {
+    border-color: rgba(255, 107, 107, 0.6);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 3px rgba(255, 107, 107, 0.2);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
 .search-icon {
     position: absolute;
     left: 24px;
