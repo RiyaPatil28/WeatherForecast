@@ -137,28 +137,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (form) {
         form.addEventListener('submit', function(event) {
-            // Check if input has value
+            // Only show loading state for form submissions
+            // Let HTML5 validation handle empty inputs
             const cityValue = cityInput.value.trim();
             
-            if (!cityValue) {
-                event.preventDefault();
-                cityInput.focus();
-                cityInput.classList.add('is-invalid');
-                
-                // Remove invalid class after user starts typing
-                cityInput.addEventListener('input', function() {
-                    cityInput.classList.remove('is-invalid');
-                }, { once: true });
-                
-                return false;
+            if (cityValue) {
+                // Show loading state for valid submissions
+                searchBtn.classList.add('loading');
+                searchIcon.style.display = 'none';
+                loadingSpinner.style.display = 'flex';
+                searchBtn.disabled = true;
+                cityInput.disabled = true;
             }
-            
-            // Show loading state for valid submissions
-            searchBtn.classList.add('loading');
-            searchIcon.style.display = 'none';
-            loadingSpinner.style.display = 'flex';
-            searchBtn.disabled = true;
-            cityInput.disabled = true;
         });
     }
 });
