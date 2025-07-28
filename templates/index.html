@@ -13,7 +13,7 @@
                     <p class="app-subtitle">Beautiful weather, anywhere</p>
                 </div>
                 
-                <form method="POST" class="search-form" id="weatherForm">
+                <form method="POST" class="search-form">
                     <div class="search-input-container">
                         <div class="search-icon">
                             <i class="fas fa-search"></i>
@@ -25,13 +25,11 @@
                             placeholder="Search for a city..." 
                             value="{{ city or '' }}"
                             autocomplete="off"
-                            id="cityInput"
+                            minlength="2"
+                            required
                         >
-                        <button class="search-btn" type="submit" id="searchBtn">
-                            <i class="fas fa-arrow-right" id="searchIcon"></i>
-                            <div class="loading-spinner" id="loadingSpinner" style="display: none;">
-                                <div class="spinner"></div>
-                            </div>
+                        <button class="search-btn" type="submit">
+                            <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </form>
@@ -125,23 +123,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Simple form submission with loading state
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('weatherForm');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchIcon = document.getElementById('searchIcon');
-    const loadingSpinner = document.getElementById('loadingSpinner');
-    
-    if (form && searchBtn) {
-        form.addEventListener('submit', function() {
-            // Show loading state when form is submitted
-            searchBtn.classList.add('loading');
-            if (searchIcon) searchIcon.style.display = 'none';
-            if (loadingSpinner) loadingSpinner.style.display = 'flex';
-            searchBtn.disabled = true;
-        });
-    }
-});
-</script>
+<!-- No JavaScript needed for basic form submission -->
 {% endblock %}

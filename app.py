@@ -21,8 +21,10 @@ def index():
     if request.method == 'POST':
         city = request.form.get('city', '').strip()
         
-        if not city:
-            flash('Please enter a city name.', 'error')
+        app.logger.debug(f"Form submitted with city: '{city}' (length: {len(city)})")
+        
+        if not city or len(city) < 2:
+            flash('Please enter a valid city name.', 'error')
         else:
             try:
                 weather_data = weather_service.get_weather(city)
