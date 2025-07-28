@@ -30,9 +30,25 @@ def index():
                     flash(f'Could not find weather data for "{city}". Please check the city name and try again.', 'error')
             except Exception as e:
                 app.logger.error(f"Error fetching weather data: {str(e)}")
-                flash('Sorry, there was an error fetching the weather data. Please try again later.', 'error')
+                if "Invalid API key" in str(e):
+                    flash('API key issue: Please check that your OpenWeatherMap API key is correct and active. New API keys can take up to 2 hours to activate.', 'error')
+                else:
+                    flash('Sorry, there was an error fetching the weather data. Please try again later.', 'error')
     
     return render_template('index.html', weather_data=weather_data, city=city)
+
+@app.route('/test-api')
+def test_api():
+    """Test endpoint to verify API key is working"""
+    try:
+        # Test with a known city
+        test_data = weather_service.get_weather("London")
+        if test_data:
+            return {"status": "success", "message": "API key is working correctly", "test_city": test_data['city']}
+        else:
+            return {"status": "error", "message": "API returned no data"}, 400
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 400
 
 @app.errorhandler(404)
 def not_found(error):

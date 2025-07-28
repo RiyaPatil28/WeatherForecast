@@ -9,6 +9,7 @@ class WeatherService:
     def __init__(self):
         self.api_key = os.getenv('OPENWEATHER_API_KEY', 'demo_key')
         self.base_url = 'https://api.openweathermap.org/data/2.5/weather'
+        logger.debug(f"WeatherService initialized with API key length: {len(self.api_key) if self.api_key else 0}")
     
     def get_weather(self, city: str) -> Optional[Dict]:
         """
@@ -36,6 +37,9 @@ class WeatherService:
             elif response.status_code == 404:
                 logger.warning(f"City not found: {city}")
                 return None
+            elif response.status_code == 401:
+                logger.error(f"Invalid API key: {response.text}")
+                raise Exception("Invalid API key. Please check your OpenWeatherMap API key is correct and active.")
             else:
                 logger.error(f"API request failed with status {response.status_code}: {response.text}")
                 raise Exception(f"Weather API returned status code {response.status_code}")
